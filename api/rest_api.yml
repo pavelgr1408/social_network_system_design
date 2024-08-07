@@ -1,0 +1,1405 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://social_network_system_design
+info:
+  version: "1.0.0"
+  title: system_design
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /popular/places/:
+    get:
+      tags:
+        - Прочее
+      security:
+        - bearerAuth: []
+      summary: Поиск популярных мест
+      description: Возвращает текущий статус указанного заказа.
+      operationId: popular-places
+      parameters:
+        - in: header
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Уникальный идентификатор клиента
+        - in: query
+          name: location
+          schema:
+            type: string
+            example: Вьетнам
+          description: Локация. Населенный пункт
+
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Номер страницы для пагинации
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+            default: 10
+          description: Количество заказов на странице
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RsPopularPlaces'
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+  /subscription/:
+    post:
+      tags:
+        - Прочее
+      security:
+        - bearerAuth: []
+      summary: Подписка на пользователя
+      description: Подписка на пользователя
+      operationId: subscription
+      parameters:
+        - name: requestId
+          description: Идентификатор запроса
+          in: header
+          schema:
+            type: string
+            example: ef7c75fd-2a10-41e4-a1d4-26522064222f
+          required: true
+        - name: Content-Type
+          description: Тип контента
+          in: header
+          schema:
+            type: string
+            example: 'application/json'
+          required: true
+        - name: Platform
+          description: Платформа.IOS/ANDROID/web
+          in: header
+          schema:
+            type: string
+            example: IOS
+          required: true
+        - name: App-Version
+          description: Текущая версия клиента
+          in: header
+          schema:
+            type: string
+            example: 1.46.0
+          required: true
+        - name: Model-Phone
+          description: Модель устройства/браузера
+          in: header
+          schema:
+            type: string
+            example: TOR
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RqSubscription'
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RsSubscription'
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+  /subscription/{userId}:
+    delete:
+      tags:
+        - Прочее
+      security:
+        - bearerAuth: []
+      summary: Удаление подписки
+      description: Удаление подписки
+      operationId: subscriptiondel
+      parameters:
+        - name: userId
+          in: path
+          description: Уникальный ID пользователя
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: requestId
+          description: Идентификатор запроса
+          in: header
+          schema:
+            type: string
+            example: ef7c75fd-2a10-41e4-a1d4-26522064222f
+          required: true
+        - name: Content-Type
+          description: Тип контента
+          in: header
+          schema:
+            type: string
+            example: 'application/json'
+          required: true
+        - name: Platform
+          description: Платформа.IOS/ANDROID/web
+          in: header
+          schema:
+            type: string
+            example: IOS
+          required: true
+        - name: App-Version
+          description: Текущая версия клиента
+          in: header
+          schema:
+            type: string
+            example: 1.46.0
+          required: true
+        - name: Model-Phone
+          description: Модель устройства/браузера
+          in: header
+          schema:
+            type: string
+            example: TOR
+          required: true
+      responses:
+        '200':
+          description: Успех
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+  /posts/:
+    post:
+      tags:
+        - Посты
+      security:
+        - bearerAuth: []
+      summary: Публикация поста
+      description: Пользователь публикует свой пост с фото, текстом и геопозицией
+      operationId: posts
+      parameters:
+        - name: requestId
+          description: Идентификатор запроса
+          in: header
+          schema:
+            type: string
+            example: ef7c75fd-2a10-41e4-a1d4-26522064222f
+          required: true
+        - name: Content-Type
+          description: Тип контента
+          in: header
+          schema:
+            type: string
+            example: 'application/json'
+          required: true
+        - name: Platform
+          description: Платформа.IOS/ANDROID/web
+          in: header
+          schema:
+            type: string
+            example: IOS
+          required: true
+        - name: App-Version
+          description: Текущая версия клиента
+          in: header
+          schema:
+            type: string
+            example: 1.46.0
+          required: true
+        - name: Model-Phone
+          description: Модель устройства/браузера
+          in: header
+          schema:
+            type: string
+            example: TOR
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RqPosts'
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RsPosts'
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+    get:
+      tags:
+        - Посты
+      security:
+        - bearerAuth: []
+      summary: Получение списка постов
+      description: Получение постов либо по пользователю, либо (если не передано) всех пользователей из избранного
+      operationId: postsget
+      parameters:
+        - name: autorsId
+          description: Идентификатор пользователя
+          in: query
+          schema:
+            type: string
+            example: 4234234234
+        - name: nextPageId
+          description: Идентификатор для скрола
+          in: query
+          schema:
+            type: string
+            example: 4234234234
+        - name: requestId
+          description: Идентификатор запроса
+          in: header
+          schema:
+            type: string
+            example: ef7c75fd-2a10-41e4-a1d4-26522064222f
+          required: true
+        - name: Content-Type
+          description: Тип контента
+          in: header
+          schema:
+            type: string
+            example: 'application/json'
+          required: true
+        - name: Platform
+          description: Платформа.IOS/ANDROID/web
+          in: header
+          schema:
+            type: string
+            example: IOS
+          required: true
+        - name: App-Version
+          description: Текущая версия клиента
+          in: header
+          schema:
+            type: string
+            example: 1.46.0
+          required: true
+        - name: Model-Phone
+          description: Модель устройства/браузера
+          in: header
+          schema:
+            type: string
+            example: TOR
+          required: true
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RsPostsGet'
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+  /posts/{date}/{id}:
+    delete:
+      tags:
+        - Посты
+      security:
+        - bearerAuth: []
+      summary: Удаление поста
+      description: Удаление поста
+      operationId: postsDel
+      parameters:
+        - name: id
+          in: path
+          description: Уникальный ID поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: date
+          in: path
+          description: Дата поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: requestId
+          description: Идентификатор запроса
+          in: header
+          schema:
+            type: string
+            example: ef7c75fd-2a10-41e4-a1d4-26522064222f
+          required: true
+        - name: Content-Type
+          description: Тип контента
+          in: header
+          schema:
+            type: string
+            example: 'application/json'
+          required: true
+        - name: Platform
+          description: Платформа.IOS/ANDROID/web
+          in: header
+          schema:
+            type: string
+            example: IOS
+          required: true
+        - name: App-Version
+          description: Текущая версия клиента
+          in: header
+          schema:
+            type: string
+            example: 1.46.0
+          required: true
+        - name: Model-Phone
+          description: Модель устройства/браузера
+          in: header
+          schema:
+            type: string
+            example: TOR
+          required: true
+      responses:
+        '200':
+          description: Успех
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+    patch:
+      tags:
+        - Посты
+      security:
+        - bearerAuth: []
+      summary: Изменение поста
+      description: Пользователь вносит изменения в свой пост. Допускается только исправление комментария. Изменение фото через удаление поста
+      operationId: postsput
+      parameters:
+        - name: id
+          in: path
+          description: Уникальный ID поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: date
+          in: path
+          description: Дата поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: requestId
+          description: Идентификатор запроса
+          in: header
+          schema:
+            type: string
+            example: ef7c75fd-2a10-41e4-a1d4-26522064222f
+          required: true
+        - name: Content-Type
+          description: Тип контента
+          in: header
+          schema:
+            type: string
+            example: 'application/json'
+          required: true
+        - name: Platform
+          description: Платформа.IOS/ANDROID/web
+          in: header
+          schema:
+            type: string
+            example: IOS
+          required: true
+        - name: App-Version
+          description: Текущая версия клиента
+          in: header
+          schema:
+            type: string
+            example: 1.46.0
+          required: true
+        - name: Model-Phone
+          description: Модель устройства/браузера
+          in: header
+          schema:
+            type: string
+            example: TOR
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RqPostsEdit'
+      responses:
+        '200':
+          description: Успех
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+  /like/posts/:
+    post:
+      tags:
+        - Посты
+      security:
+        - bearerAuth: []
+      summary: Оценка поста
+      description: Оценка постов других путешественников. Имеет только лайк. Лайк или есть или его нет. Иных вариантов не предсматривается
+      operationId: like-posts
+      parameters:
+        - name: requestId
+          description: Идентификатор запроса
+          in: header
+          schema:
+            type: string
+            example: ef7c75fd-2a10-41e4-a1d4-26522064222f
+          required: true
+        - name: Content-Type
+          description: Тип контента
+          in: header
+          schema:
+            type: string
+            example: 'application/json'
+          required: true
+        - name: Platform
+          description: Платформа.IOS/ANDROID/web
+          in: header
+          schema:
+            type: string
+            example: IOS
+          required: true
+        - name: App-Version
+          description: Текущая версия клиента
+          in: header
+          schema:
+            type: string
+            example: 1.46.0
+          required: true
+        - name: Model-Phone
+          description: Модель устройства/браузера
+          in: header
+          schema:
+            type: string
+            example: TOR
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RqLikePosts'
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RsLikePosts'
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+  /like/posts/{date}/{id}:
+    delete:
+      tags:
+        - Посты
+      security:
+        - bearerAuth: []
+      summary: Удаление оценки с поста
+      description: Удаление оценки с поста
+      operationId: postsDellike
+      parameters:
+        - name: id
+          in: path
+          description: Уникальный ID поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: date
+          in: path
+          description: Дата поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: requestId
+          description: Идентификатор запроса
+          in: header
+          schema:
+            type: string
+            example: ef7c75fd-2a10-41e4-a1d4-26522064222f
+          required: true
+        - name: Content-Type
+          description: Тип контента
+          in: header
+          schema:
+            type: string
+            example: 'application/json'
+          required: true
+        - name: Platform
+          description: Платформа.IOS/ANDROID/web
+          in: header
+          schema:
+            type: string
+            example: IOS
+          required: true
+        - name: App-Version
+          description: Текущая версия клиента
+          in: header
+          schema:
+            type: string
+            example: 1.46.0
+          required: true
+        - name: Model-Phone
+          description: Модель устройства/браузера
+          in: header
+          schema:
+            type: string
+            example: TOR
+          required: true
+      responses:
+        '200':
+          description: Успех
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+  /comments/posts/{date}/{postsId}/{id}:
+    delete:
+      tags:
+        - Комментарии к постам
+      security:
+        - bearerAuth: []
+      summary: Удаление коммента к посту
+      description: Удаление коммента к посту
+      operationId: postsDelcomments
+      parameters:
+        - name: id
+          in: path
+          description: Уникальный ID коммента
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: postsId
+          in: path
+          description: Уникальный ID поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: date
+          in: path
+          description: Дата поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: requestId
+          description: Идентификатор запроса
+          in: header
+          schema:
+            type: string
+            example: ef7c75fd-2a10-41e4-a1d4-26522064222f
+          required: true
+        - name: Content-Type
+          description: Тип контента
+          in: header
+          schema:
+            type: string
+            example: 'application/json'
+          required: true
+        - name: Platform
+          description: Платформа.IOS/ANDROID/web
+          in: header
+          schema:
+            type: string
+            example: IOS
+          required: true
+        - name: App-Version
+          description: Текущая версия клиента
+          in: header
+          schema:
+            type: string
+            example: 1.46.0
+          required: true
+        - name: Model-Phone
+          description: Модель устройства/браузера
+          in: header
+          schema:
+            type: string
+            example: TOR
+          required: true
+      responses:
+        '200':
+          description: Успех
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+    patch:
+      tags:
+        - Комментарии к постам
+      security:
+        - bearerAuth: []
+      summary: Изменение комментария к посту
+      description: Изменение комментария к посту
+      operationId: commentsposts
+      parameters:
+        - name: id
+          in: path
+          description: Уникальный ID коммента
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: postsId
+          in: path
+          description: Уникальный ID поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: date
+          in: path
+          description: Дата поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: requestId
+          description: Идентификатор запроса
+          in: header
+          schema:
+            type: string
+            example: ef7c75fd-2a10-41e4-a1d4-26522064222f
+          required: true
+        - name: Content-Type
+          description: Тип контента
+          in: header
+          schema:
+            type: string
+            example: 'application/json'
+          required: true
+        - name: Platform
+          description: Платформа.IOS/ANDROID/web
+          in: header
+          schema:
+            type: string
+            example: IOS
+          required: true
+        - name: App-Version
+          description: Текущая версия клиента
+          in: header
+          schema:
+            type: string
+            example: 1.46.0
+          required: true
+        - name: Model-Phone
+          description: Модель устройства/браузера
+          in: header
+          schema:
+            type: string
+            example: TOR
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RqCommentsPosts'
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RsCommentsPosts'
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+  /comments/posts/{date}/{postsId}:
+    post:
+      tags:
+        - Комментарии к постам
+      security:
+        - bearerAuth: []
+      summary: Добавление комментария к посту
+      description: Добавление комментария к посту
+      operationId: commentsposts
+      parameters:
+        - name: postsId
+          in: path
+          description: Уникальный ID поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: date
+          in: path
+          description: Дата поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: requestId
+          description: Идентификатор запроса
+          in: header
+          schema:
+            type: string
+            example: ef7c75fd-2a10-41e4-a1d4-26522064222f
+          required: true
+        - name: Content-Type
+          description: Тип контента
+          in: header
+          schema:
+            type: string
+            example: 'application/json'
+          required: true
+        - name: Platform
+          description: Платформа.IOS/ANDROID/web
+          in: header
+          schema:
+            type: string
+            example: IOS
+          required: true
+        - name: App-Version
+          description: Текущая версия клиента
+          in: header
+          schema:
+            type: string
+            example: 1.46.0
+          required: true
+        - name: Model-Phone
+          description: Модель устройства/браузера
+          in: header
+          schema:
+            type: string
+            example: TOR
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RqCommentsPosts'
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RsCommentsPosts'
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+  /comments/posts/{autorsId}/{date}/{postsId}:
+    get:
+      tags:
+        - Комментарии к постам
+      security:
+        - bearerAuth: []
+      summary: Получить комментарии к посту
+      description: Получить комментарии к посту
+      operationId: commentspostsGet
+      parameters:
+        - name: autorsId
+          in: path
+          description: Уникальный ID автора поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: postsId
+          in: path
+          description: Уникальный ID поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: date
+          in: path
+          description: Дата поста
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: nextPageId
+          description: Идентификатор для скрола
+          in: query
+          schema:
+            type: string
+            example: 4234234234
+        - name: requestId
+          description: Идентификатор запроса
+          in: header
+          schema:
+            type: string
+            example: ef7c75fd-2a10-41e4-a1d4-26522064222f
+          required: true
+        - name: Content-Type
+          description: Тип контента
+          in: header
+          schema:
+            type: string
+            example: 'application/json'
+          required: true
+        - name: Platform
+          description: Платформа.IOS/ANDROID/web
+          in: header
+          schema:
+            type: string
+            example: IOS
+          required: true
+        - name: App-Version
+          description: Текущая версия клиента
+          in: header
+          schema:
+            type: string
+            example: 1.46.0
+          required: true
+        - name: Model-Phone
+          description: Модель устройства/браузера
+          in: header
+          schema:
+            type: string
+            example: TOR
+          required: true
+      responses:
+        '200':
+          description: Успех
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RsCommentsPostsGet'
+        '400':
+          description: Ошибки валидации запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+        '401':
+          description: Ошибки авторизации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '500':
+          description: Ошибки сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    RsPopularPlaces:
+      type: object
+      properties:
+        nextPageId:
+          type: string
+          format: int
+          description: Идентификатор для перехода на следующую страницу
+          example: 123456789
+        locations:
+          description: Локации
+          type: array
+          items:
+            minimum: 0
+            $ref: '#/components/schemas/locations'
+    locations:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID локации
+          example: 123456789
+        name:
+          type: string
+          description: Наименование локации
+          example: Вьетнам
+        items:
+          description: Список постов
+          type: array
+          items:
+            minimum: 0
+            maximum: 10
+            $ref: '#/components/schemas/RsPostsItems'
+    RqLikePosts:
+      type: object
+      required:
+        - postsId
+        - postsDate
+        - autorsId
+        - isReactions
+      properties:
+        postsId:
+          type: string
+          description: Идентификатор поста
+          example: 11111
+        postsDate:
+          type: string
+          description: Дата поста
+          example: 2005-08-09T18:31:42+03:00
+        autorsId:
+          type: string
+          description: Идентификатор автора поста
+          example: 11111
+    RsLikePosts:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: int
+          description: Идентификатор реакции
+          example: 123456789
+    RqCommentsPosts:
+      type: object
+      required:
+        - description
+        - date
+      properties:
+        date:
+          type: string
+          format: data_time_UTC
+          description: Дата поста
+          example: 2005-08-09T18:31:42+03:00
+        description:
+          type: string
+          description: Комментарий к посту
+          example: Комментарий к посту
+    RsCommentsPosts:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: int
+          description: Идентификатор комментария
+          example: 123456789
+    RsPostsGet:
+      type: object
+      properties:
+        nextPageId:
+          type: string
+          format: int
+          description: Идентификатор для перехода на следующую страницу
+          example: 123456789
+        items:
+          description: Список постов
+          type: array
+          items:
+            minimum: 0
+            $ref: '#/components/schemas/RsPostsItems'
+    RsPostsItems:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: int
+          description: Идентификатор поста
+          example: 123456789
+        autorsId:
+          type: string
+          format: int
+          description: Идентификатор автора
+          example: 123456789
+        url:
+          type: string
+          description: Ссылка на фото
+          example: http......
+        description:
+          description: Текст комментария
+          example: Текст комментария
+        date:
+          type: string
+          format: data_time_UTC
+          description: Дата поста
+          example: 2005-08-09T18:31:42+03:00
+        countLike:
+          type: string
+          format: int
+          description: Количество лайков
+          example: 10
+    RsCommentsPostsGet:
+      type: object
+      properties:
+        nextPageId:
+          type: string
+          format: int
+          description: Идентификатор для перехода на следующую страницу
+          example: 123456789
+        items:
+          description: Список комментариев
+          type: array
+          items:
+            minimum: 0
+            $ref: '#/components/schemas/RsCommentsPostsItems'
+    RsCommentsPostsItems:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: int
+          description: Идентификатор комментария
+          example: 123456789
+        autorsId:
+          type: string
+          format: int
+          description: Идентификатор автора комментария
+          example: 123456789
+        description:
+          description: Текст комментария
+          example: Текст комментария
+        date:
+          type: string
+          format: data_time_UTC
+          description: Дата поста
+          example: 2005-08-09T18:31:42+03:00
+    RqPosts:
+      type: object
+      required:
+        - file
+        - date
+      properties:
+        file:
+          type: string
+          format: base64
+          description: Файл
+          example: WFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlzIHNpbmd1bGFyIHBhc3Npb24gZ
+        date:
+          type: string
+          format: data_time_UTC
+          description: Дата поста
+          example: 2005-08-09T18:31:42+03:00
+        description:
+          type: string
+          description: Комментарий к посту
+          example: Комментарий к посту
+        geolocation:
+          type: string
+          description: Геолокация (координаты)
+          example: 37°25'19.07"N, 122°05'06.24"W
+    RsPosts:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: int
+          description: Идентификатор поста
+          example: 123456789
+    RqSubscription:
+      type: object
+      required:
+        - userId
+      properties:
+        userId:
+          type: string
+          description: Идентификатор пользователя
+          example: 4234234234
+    RsSubscription:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: int
+          description: Идентификатор поста
+          example: 123456789
+    RqPostsEdit:
+      type: object
+      required:
+        - description
+      properties:
+        description:
+          type: string
+          description: Комментарий к посту
+          example: Комментарий к посту
+    ErrorResponse400:
+      description: Ответ с сообщением об ошибке
+      type: object
+      required:
+        - code
+        - title
+        - details
+        - uuid
+      properties:
+        code:
+          description: код ошибки
+          type: string
+          example: 002
+        title:
+          description: текст ошибки, понятный для пользователя
+          type: string
+          example: Не пройдена валидация поля ХХХ
+        details:
+          description: системное сообщение на английском
+          type: string
+          example: Invalid paramName
+        uuid:
+          description: идентификатор ошибки
+          type: string
+          example: ef7c75fd-2a10-41e4-a1d4-26522067222f
+          nullable: false
+    ErrorResponse401:
+      description: Ответ с сообщением об ошибке
+      type: object
+      required:
+        - code
+        - title
+        - details
+        - uuid
+      properties:
+        code:
+          description: код ошибки
+          type: string
+          example: 002
+        title:
+          description: текст ошибки, понятный для пользователя
+          type: string
+          example: Некорректный токен
+        details:
+          description: системное сообщение на английском
+          type: string
+          example: Invalid JWT
+        uuid:
+          description: идентификатор ошибки
+          type: string
+          example: ef7c75fd-2a10-41e4-a1d4-26522067222f
+    ErrorResponse500:
+      description: Ответ с сообщением об ошибке
+      type: object
+      required:
+        - code
+        - title
+        - details
+        - uuid
+      properties:
+        code:
+          description: код ошибки
+          type: string
+          example: 003
+        title:
+          description: текст ошибки, понятный для пользователя
+          type: string
+          example: Ошибка ХХХХХ
+        details:
+          description: системное сообщение на английском
+          type: string
+          example: Error ХХХХХ
+        uuid:
+          description: идентификатор ошибки
+          type: string
+          example: ef7c75fd-2a10-41e4-a1d4-26522064222f
