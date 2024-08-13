@@ -12,7 +12,7 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 paths:
-  /popular/places/:
+  /popular-places/:
     get:
       tags:
         - Прочее
@@ -73,7 +73,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse500'
-  /subscription/:
+  /subscriptions/:
     post:
       tags:
         - Прочее
@@ -149,7 +149,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse500'
-  /subscription/{userId}:
+  /subscriptions/{userId}:
     delete:
       tags:
         - Прочее
@@ -549,7 +549,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse500'
-  /like/posts/:
+  /posts/likes/:
     post:
       tags:
         - Посты
@@ -625,7 +625,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse500'
-  /like/posts/{date}/{id}:
+  /posts/likes/{date}/{id}:
     delete:
       tags:
         - Посты
@@ -707,7 +707,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse500'
-  /comments/posts/{date}/{postsId}/{id}:
+  /posts/comments/{date}/{postsId}/{id}:
     delete:
       tags:
         - Комментарии к постам
@@ -896,7 +896,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse500'
-  /comments/posts/{date}/{postsId}:
+  /posts/comments/{date}/{postsId}:
     post:
       tags:
         - Комментарии к постам
@@ -988,7 +988,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse500'
-  /comments/posts/{autorsId}/{date}/{postsId}:
+  /posts/comments/{autorsId}/{date}/{postsId}:
     get:
       tags:
         - Комментарии к постам
