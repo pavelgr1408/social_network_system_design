@@ -16,7 +16,7 @@ Table posts {
   user_id integer [not null]
   date timestamp
   description varchar (2000)
-  list_name_image varchar (2000)
+  list_name_images varchar (2000)
   geolocation varchar (255)
   is_deleted integer (1)
   date_create timestamp
