@@ -26,7 +26,6 @@ Table images {
   name varchar (255)
   is_deleted integer (1)
   date_create timestamp
-  date_update timestamp
 }
 Table images_posts {
   id integer (18) [primary key]
@@ -41,15 +40,14 @@ Table likes_posts {
   posts_id integer (18)
   user_id integer (10)
   date_create timestamp
-  date_update timestamp
 }
 Table comments {
   id integer (30) [primary key]
   user_id integer (10) [not null]
   date timestamp
   description varchar (2000)
-  is_deleted integer (1)
   posts_id integer (18)
+  reply_id integer (18)
   date_create timestamp
   date_update timestamp
 }
@@ -58,7 +56,6 @@ Table subscription {
   user_id integer (10) [not null]
   user_subscription_id integer (10) [not null]
   date_create timestamp
-  date_update timestamp
 }
 Table places {
   id integer (10) [primary key]
