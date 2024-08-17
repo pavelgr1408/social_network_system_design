@@ -16,6 +16,7 @@ Table posts {
   user_id integer [not null]
   date timestamp
   description varchar (2000)
+  list_name_image varchar (2000)
   geolocation varchar (255)
   is_deleted integer (1)
   date_create timestamp
@@ -26,13 +27,6 @@ Table images {
   name varchar (255)
   is_deleted integer (1)
   date_create timestamp
-}
-Table images_posts {
-  id integer (18) [primary key]
-  images_id integer (18)
-  posts_id integer (18)
-  date_create timestamp
-  date_update timestamp
 }
 Table likes_posts {
   id integer (30) [primary key]
@@ -65,8 +59,8 @@ Table places {
   date_update timestamp
 }
 
-Ref: "posts"."id" < "images_posts"."posts_id"
-Ref: "images"."id" < "images_posts"."images_id"
+//Ref: "posts"."id" < "images_posts"."posts_id"
+//Ref: "images"."id" < "images_posts"."images_id"
 Ref: "users"."id" < "posts"."user_id"
 Ref: "posts"."id" < "likes_posts"."posts_id"
 Ref: "users"."id" < "likes_posts"."user_id"
