@@ -22,6 +22,7 @@ Table posts {
   date_create timestamp
   date_update timestamp
 }
+
 Table images {
   id integer (18) [primary key]
   name varchar (255)
@@ -45,12 +46,14 @@ Table comments {
   date_create timestamp
   date_update timestamp
 }
+
 Table subscription {
   id integer [primary key]
   user_id integer (10) [not null]
   user_subscription_id integer (10) [not null]
   date_create timestamp
 }
+
 Table places {
   id integer (10) [primary key]
   posts_id integer (18)
