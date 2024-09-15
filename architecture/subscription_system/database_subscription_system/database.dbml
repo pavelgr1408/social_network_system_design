@@ -1,0 +1,7 @@
+
+Table subscription {
+  id integer [primary key]
+  user_id integer (10) [not null]
+  user_subscription_id integer (10) [not null]
+  date_create timestamp
+}

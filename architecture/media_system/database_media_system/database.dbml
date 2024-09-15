@@ -1,0 +1,7 @@
+
+Table images {
+  id integer (18) [primary key]
+  name varchar (255)
+  is_deleted integer (1)
+  date_create timestamp
+}s

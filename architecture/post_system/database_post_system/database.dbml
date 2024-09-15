@@ -1,0 +1,41 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+// https://dbdiagram.io/d
+
+
+Table posts {
+  id integer (18) [primary key]
+  user_id integer [not null]
+  date timestamp
+  description varchar (2000)
+  list_name_images varchar (2000)
+  geolocation varchar (255)
+  is_deleted integer (1)
+  date_create timestamp
+  date_update timestamp
+}
+
+Table likes_posts {
+  id integer (30) [primary key]
+  posts_id integer (18)
+  user_id integer (10)
+  date_create timestamp
+}
+Table like_count_posts {
+  id integer (18) [primary key]
+  post_id integer [not null]
+  count integer (10)
+  date_create timestamp
+}
+Table places {
+  id integer (10) [primary key]
+  posts_id integer (18)
+  name varchar (255)
+  date_create timestamp
+  date_update timestamp
+}
+
+
+Ref: "like_count_posts"."post_id" - "posts"."id"
+Ref: "posts"."id" < "likes_posts"."posts_id"
+Ref: "posts"."id" > "places"."posts_id"

@@ -1,0 +1,11 @@
+
+Table comments {
+  id integer (30) [primary key]
+  user_id integer (10) [not null]
+  date timestamp
+  description varchar (2000)
+  posts_id integer (18)
+  reply_id integer (18)
+  date_create timestamp
+  date_update timestamp
+}

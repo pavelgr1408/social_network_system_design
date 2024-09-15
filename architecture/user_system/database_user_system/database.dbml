@@ -1,0 +1,9 @@
+Table users {
+  id integer (10) [primary key]
+  phone integer (11) [not null, unique]
+  name varchar (255)
+  surname varchar (255)
+  last_name varchar (255)
+  date_create timestamp
+  date_update timestamp
+}
